@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Wrapper, ButtonWrapper } from './QuestionCard.styles';
 
 
 type Props = {
@@ -13,24 +14,32 @@ type Props = {
 
 export const QuestionCard: React.FC<Props> = ({ question, answers, callback, userAnswer, questionNum, totalQuestions }) => {
     return (
-        <div>
-            <p>
-                Question {questionNum} / {totalQuestions}
-            </p>
-            <p dangerouslySetInnerHTML={{ __html: question }} />
+        <Wrapper >
             <div>
-                {answers.map((answer) => (
-                    <div>
-                        <button
-                        disabled={userAnswer}
-                        value={answer}
-                        onClick={callback}
+                <p>
+                    Question {questionNum} / {totalQuestions}
+                </p>
+                <p dangerouslySetInnerHTML={{ __html: question }} />
+                <div>
+                    {answers.map((answer, questionNum) => (
+                        <ButtonWrapper
+                            key={questionNum}
+                            correct={userAnswer?.correctAnswer === answer}
+                            userClicked={userAnswer?.correctAnswer === answer}
                         >
-                            <span dangerouslySetInnerHTML={{ __html: answer }} />
-                        </button>
-                    </div>
-                ))}
+                            <div>
+                                <button
+                                    disabled={userAnswer}
+                                    value={answer}
+                                    onClick={callback}
+                                >
+                                    <span dangerouslySetInnerHTML={{ __html: answer }} />
+                                </button>
+                            </div>
+                        </ButtonWrapper>
+                    ))}
+                </div>
             </div>
-        </div>
+        </Wrapper >
     )
 }
